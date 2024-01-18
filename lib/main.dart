@@ -1,8 +1,13 @@
+import 'package:app1/screens/splash_screen.dart';
+
 import 'package:app1/views/camera_view.dart';
+
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  // Fetch the available cameras before initializing the app.
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -14,12 +19,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tflite model',
       theme: ThemeData(
-       
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const CameraView(),
+      home: SplashScreen(),
     );
   }
 }
-

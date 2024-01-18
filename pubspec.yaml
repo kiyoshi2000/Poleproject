@@ -44,6 +44,11 @@ dependencies:
   image: ^3.3.0
   flutter_tflite: ^1.0.1
 
+  #Add aditional features to connect the frontend
+  video_player: ^2.8.1
+  path_provider: ^2.1.1
+  web: ^0.3.0
+  shared_preferences: ^2.0.8
   
 
   #image: ^3.3.0
@@ -65,7 +70,13 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
+
 # The following section is specific to Flutter packages.
+
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -75,8 +86,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-
-     - assets/ 
+    - assets/camera_aim.png
+    - assets/splash.mp4
+    - assets/ 
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

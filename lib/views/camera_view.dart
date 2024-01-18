@@ -10,13 +10,12 @@ class CameraView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GetBuilder<ScanController>(
-        init: ScanController(),
-        builder: (controller) {
-          return controller.isCameraInitialized.value
-              ? CameraPreview(controller.cameraController)
-              :const Center(child: Text("Loading Preview ..."));
-        }),
+          init: ScanController(),
+          builder: (controller) {
+            return controller.isCameraInitialized.value
+                ? CameraPreview(controller.cameraController)
+                : const Center(child: Text("Loading Preview ..."));
+          }),
     );
   }
-
 }

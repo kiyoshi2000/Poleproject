@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'dart:developer';  // para a função log
+import 'dart:developer'; // para a função log
 
 import 'package:camera/camera.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
@@ -7,16 +7,16 @@ import 'package:flutter_tflite/flutter_tflite.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class ScanController extends GetxController{
+class ScanController extends GetxController {
   @override
-  void onInit(){
+  void onInit() {
     super.onInit();
     initCamera();
     initTflite();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     cameraController.dispose();
   }
@@ -29,8 +29,11 @@ class ScanController extends GetxController{
   var isCameraInitialized = false.obs;
   var cameraCount = 0;
 
-  initCamera() async{
-    if (await Permission.camera.request().isGranted){
+  var x, y, w, h = 0.0;
+  var label = "";
+
+  initCamera() async {
+    if (await Permission.camera.request().isGranted) {
       cameras = await availableCameras();
 
       cameraController = CameraController(
@@ -40,18 +43,16 @@ class ScanController extends GetxController{
       await cameraController.initialize().then((value) {
         cameraController.startImageStream((image) {
           cameraCount++;
-          if(cameraCount %10 == 0){
-             cameraCount = 0;
-             objectDetector(image);
+          if (cameraCount % 10 == 0) {
+            cameraCount = 0;
+            objectDetector(image);
           }
           update();
         });
-        
       });
 
       isCameraInitialized(true);
       update();
-
     } else {
       print("Permission denied");
     }
@@ -65,9 +66,8 @@ class ScanController extends GetxController{
       numThreads: 1,
       useGpuDelegate: false,
     );
-
   }
-  
+
   objectDetector(CameraImage image) async {
     var detector = await Tflite.runModelOnFrame(
       bytesList: image.planes.map((e) {
@@ -83,8 +83,20 @@ class ScanController extends GetxController{
       threshold: 0.4,
     );
 
-    if(detector != null){
+    if (detector != null) {
+      //log("Result is $detector");
+      var ourDetectedObject = detector.first;
       print(detector);
+      /* if (ourDetectedObject['confidenceInClass'] * 100 > 45) {
+        print(detector);
+        label = detector.first['detectedClass'].toString();
+        h = ourDetectedObject['rect']['h'];
+        w = ourDetectedObject['rect']['w'];
+        x = ourDetectedObject['rect']['x'];
+        y = ourDetectedObject['rect']['y'];
+      }
+      update();
+    */
     }
   }
 }

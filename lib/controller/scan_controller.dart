@@ -60,8 +60,8 @@ class ScanController extends GetxController {
 
   initTflite() async {
     await Tflite.loadModel(
-      model: "assets/model.tflite",
-      labels: "assets/labels.txt",
+      model: "assets/model_app.tflite",
+      labels: "assets/labels_app.txt",
       isAsset: true,
       numThreads: 1,
       useGpuDelegate: false,
@@ -84,19 +84,14 @@ class ScanController extends GetxController {
     );
 
     if (detector != null) {
-      //log("Result is $detector");
       var ourDetectedObject = detector.first;
       print(detector);
-      /* if (ourDetectedObject['confidenceInClass'] * 100 > 45) {
+
+      if (ourDetectedObject['confidence'] * 100 > 15) {
         print(detector);
-        label = detector.first['detectedClass'].toString();
-        h = ourDetectedObject['rect']['h'];
-        w = ourDetectedObject['rect']['w'];
-        x = ourDetectedObject['rect']['x'];
-        y = ourDetectedObject['rect']['y'];
+        label = detector.first['label'].toString();
       }
       update();
-    */
     }
   }
 }
